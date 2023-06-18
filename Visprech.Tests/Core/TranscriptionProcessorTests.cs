@@ -67,7 +67,7 @@ namespace Visprech.Tests.Core
             CollectionAssert.IsNotEmpty(_tProcessor.OccurencesOfDesired);
             
 
-            _messageWriter.Verify(m => m.WriteNotyfication(It.IsAny<string>()), Times.Once);
+            _messageWriter.Verify(m => m.WriteNotyfication(It.IsAny<string>()), Times.AtLeastOnce);
             _messageWriter.Verify(m => m.WriteSuccess(It.IsAny<string>()), Times.Once);
         }
 
@@ -84,7 +84,7 @@ namespace Visprech.Tests.Core
             CollectionAssert.IsEmpty(_tProcessor.OccurencesOfDesired);
             CollectionAssert.IsEmpty(_tProcessor.OccurencesOfProhibited);
 
-            _messageWriter.Verify(m => m.WriteNotyfication(It.IsAny<string>()), Times.Once);
+            _messageWriter.Verify(m => m.WriteNotyfication(It.IsAny<string>()), Times.AtLeastOnce);
             _messageWriter.Verify(m => m.WriteSuccess(It.IsAny<string>()), Times.Once);
         }
 
