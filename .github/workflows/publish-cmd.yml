@@ -1,0 +1,65 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Publish Command Line
+
+on:
+  push:
+    ##branches: [ "master" ]
+    tags:
+      - "v*"
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  PROJECT_PATH: Visprech.Cmd/Visprech.Cmd.csproj
+  PUBLISH_PATH: Visprech.Cmd/bin/Release/net6.0/win-x64/publish/
+  ZIP_FILE: VideoSpeechCheck.zip                        ##relative to PUBLISH_PATH
+  EXE_FILE: VideoSpeechChecker.exe                      ##relative to PUBLISH_PATH
+  WHISPER_FILE: runtimes/win-x64/whisper.dll            ##relative to PUBLISH_PATH
+  RELEASE_ASSET_NAME: VideoSpeechCheck.zip
+
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    
+    - name: Publish Project
+      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:TargetFramework=net6.0
+
+    - name: Create Zip File
+      working-directory: ${{ env.PUBLISH_PATH }}
+      run: 7z a ${{ env.ZIP_FILE }} ${{ env.EXE_FILE }} ${{ env.WHISPER_FILE }}
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+
+    - name: Upload Release Asset    
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ${{ env.PUBLISH_PATH }}${{ env.ZIP_FILE }}
+        asset_name: ${{ env.RELEASE_ASSET_NAME }}
+        asset_content_type: application/zip
