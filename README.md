@@ -8,7 +8,7 @@
 
 ## Functionalities:
 * speech to text recognition and transcribe
-* check existence of desired and prohibited phrased
+* check existence of desired and prohibited phrases
 
 ## UI
 ### Command line application
