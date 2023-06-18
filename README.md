@@ -1,5 +1,7 @@
 # Video Speech Check
 
+![Video Speech Check Logo](https://github.com/wit-eks/VideoSpeechCheck/blob/master/_assets/icons/icon-128.png)
+
 ## Builds
 
 ![command line publish](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/publish-cmd.yml/badge.svg)
