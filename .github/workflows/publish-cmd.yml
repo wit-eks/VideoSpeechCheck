@@ -12,7 +12,7 @@ env:
   PROJECT_PATH: Visprech.Cmd/Visprech.Cmd.csproj
   PUBLISH_PATH: Visprech.Cmd/bin/Release/net6.0/win-x64/publish/
   ZIP_FILE: VideoSpeechCheck.zip                        ##relative to PUBLISH_PATH
-  EXE_FILE: VideoSpeechChecker.exe                      ##relative to PUBLISH_PATH
+  EXE_FILE: VideoSpeechCheck.exe                        ##relative to PUBLISH_PATH
   WHISPER_FILE: runtimes/win-x64/whisper.dll            ##relative to PUBLISH_PATH
   RELEASE_ASSET_NAME: VideoSpeechCheck.zip
 
