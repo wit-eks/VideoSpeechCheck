@@ -21,6 +21,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "icons", "icons", "{60D0C01F
 		_assets\icons\icon.svg = _assets\icons\icon.svg
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_github", "_github", "{88ABC6D0-F3FD-4263-9FCD-628B8B5EE5E6}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{457D7EE0-24C2-46AB-88AC-968AD4C30BE6}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-cmd.yml = .github\workflows\publish-cmd.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +59,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{60D0C01F-438C-42E4-918A-6D4CCB4B91E7} = {AA357DE9-45BF-4D21-AB5A-37E4F184F6E5}
+		{457D7EE0-24C2-46AB-88AC-968AD4C30BE6} = {88ABC6D0-F3FD-4263-9FCD-628B8B5EE5E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A92FFF57-E8DD-4101-A0CE-74F92616FC9A}
