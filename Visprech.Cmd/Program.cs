@@ -11,6 +11,9 @@ using Visprech.Infrastructure.MediaTranscriptors.Services;
 using Visprech.Infrastructure.PhraseComparers;
 using Serilog;
 using Serilog.Extensions.Logging;
+using static Visprech.Cmd.ConsoleMessages;
+
+int exitCode = 0;
 
 try
 {
@@ -70,24 +73,26 @@ try
         logger.Warning(ce, "Wrong configuration noted.");
         ConsoleWriter cw = new();
         cw.WriteFailure(ce.Message);
+        exitCode = 21;
     }
     catch (ProcessingException pe)
     {
         logger.Error(pe, "Processing error noted");
         ConsoleWriter cw = new();
         cw.WriteInternalError(pe.Message);
+        exitCode = 22;
     }
     catch (Exception e)
     {
         logger.Error(e, "Ohooo, unknown error");
         ConsoleWriter cw = new();
         cw.WriteInternalError(e.Message);
+        exitCode = 30;
     }
     finally
     {
         logger.Information("### Application closed");
-        logger.Dispose();
-        Environment.Exit(20);
+        logger.Dispose();        
     }
 }
 catch (Exception e)
@@ -98,5 +103,15 @@ catch (Exception e)
     Console.WriteLine(e.Message);
     Console.ResetColor();
     Console.WriteLine();
-    Environment.Exit(30);
+
+    exitCode = 40;
 }
+
+Console.WriteLine();
+Console.BackgroundColor = ConsoleColor.DarkGray;
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.Write(AnyKeyToExit);
+Console.ResetColor();
+Console.WriteLine();
+Console.ReadKey(intercept: true);
+Environment.Exit(exitCode);

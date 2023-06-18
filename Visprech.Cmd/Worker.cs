@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Diagnostics.Metrics;
 using Visprech.Core;
 using Visprech.Core.Interfaces;
 using static Visprech.Cmd.ConsoleMessages;
@@ -45,12 +44,7 @@ namespace Visprech.Cmd
             _logger.LogInformation("Checking transcript...");
             _transcriptionProcessor.Check(transcription);
 
-            _logger.LogInformation("Job done!");
-
-            _messageWriter.WriteEmptyLine();
-            _messageWriter.WriteHeader(AnyKeyToExit);
-
-            Console.ReadKey(intercept: true);
+            _logger.LogInformation("Job done!");            
         }
 
         private string ValidateArguments(string[] args)
