@@ -1,0 +1,70 @@
+//ffmpeg -i input.mp3 -acodec pcm_s16le -ac 1 -ar 16000 input_16.wav
+//https://github.com/sdadas/polish-nlp-resources#models-supporting-polish-language
+//https://github.com/sandrohanea/whisper.net
+//https://github.com/ggerganov/whisper.cpp/tree/master/models
+
+
+TODO:
+
+CHECK if all works as before :D
+
+
+DONE Whole implementation of _mediaTranscriptor should be in Infrastructure
+     with relation to 3rd party packages
+
+DONE TranscriptionProcessor/Checker should be implemented in Core
+	 
+DONE TranscriptionSaver should be implemented in Core or in Infrastructure
+
+
+DONE Perhaps IMessageWriter implementation should be moved to Cmd ??
+     then any UI will relate to Core and implement its own message writer
+	 the WPF will direct messages to some text box etc
+	 the Cmd will direct messages to Console
+	 So the implementation of IMessageWriter is UI specific
+
+
+DONE, CHECK init missing arguments in config services
+	- check embedded config file
+
+DONE, Move 3rd packages dependency from Core
+
+DONE, add logging
+DONE, what if ggml type is not parsable
+DONE, add description in config for Language and GgmlType
+DONE, the code produces 2 transcribed files: *.speech and *prepared.small.txt, should be *.speech-small.txt
+DONE, for EN we should be able to catch apostrophe:  That's what she's saying
+DONE, unit test
+		+ existence of good, 
+			+ and partial
+		+ not existence of good
+		+ existence of bad, 
+			+ and partial
+		+ not existence of bad
+DONE, UI test
+		+ only good
+		+ only bad, good empty + additional space between 
+		+ existence of good, 
+			+ and partial
+		+ not existence of good
+		+ existence of bad, 
+			+ and partial
+		+ not existence of bad
+
+DONE, add logs, try/catches etc
+DONE, dropping file from different folder should use paths where exe file exists
+DONE, a special folder for files processed work
+DONE, force audio and force transcribe
+
+
+IN PROGRESS 
+	- looks like the exe file needs runtimes with whishper dll folder :?
+
+
+
+
+
+New UI as WPF with fancy stiling :D
+	https://www.youtube.com/watch?v=OJygSefHVr0
+	- drop down
+	- on fly transcription checks

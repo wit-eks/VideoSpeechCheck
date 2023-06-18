@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:zoom="0.74564394"
+     inkscape:cx="329.24562"
+     inkscape:cy="561.9304"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#5fbcd3;stroke:#1c4261;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="path1514"
+       cx="112.12903"
+       cy="125.6129"
+       r="63.870968" />
+    <circle
+       style="fill:#004455;stroke:none;stroke-width:19.5706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="path2096-4"
+       cx="149.75807"
+       cy="125.6129"
+       r="12.5" />
+    <path
+       style="fill:#d5f6ff;stroke:#d5f6ff;stroke-width:10.593;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="M 87.883332,91.135177 V 160.09058 L 145.35596,125.613 Z"
+       id="path1730"
+       sodipodi:nodetypes="cccc" />
+    <circle
+       style="fill:#004455;stroke:none;stroke-width:19.5706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="path2096"
+       cx="114.2742"
+       cy="125.6129"
+       r="12.5" />
+    <circle
+       style="fill:#004455;stroke:none;stroke-width:19.5706;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="path2096-8"
+       cx="78.790321"
+       cy="125.6129"
+       r="12.5" />
+  </g>
+</svg>

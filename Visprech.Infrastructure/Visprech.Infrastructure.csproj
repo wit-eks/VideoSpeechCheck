@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Config\default-config.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Config\default-config.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Diacritics" Version="3.3.18" />
+    <PackageReference Include="Fastenshtein" Version="1.0.0.8" />
+    <PackageReference Include="Whisper.net" Version="1.4.3" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Visprech.Recognisers\Visprech.Core.csproj" />
+  </ItemGroup>
+
+</Project>
