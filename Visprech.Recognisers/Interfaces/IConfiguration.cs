@@ -15,5 +15,6 @@
         bool ShowDetailsInReport { get; set; }
         string WhisperFilesPath { get; set; }
         string OutputFilesPath { get; set;}
+        string FfmpegZipUri { get; set; }
     }
 }

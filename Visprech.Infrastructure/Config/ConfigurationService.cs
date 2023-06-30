@@ -121,7 +121,9 @@ namespace Visprech.Infrastructure.Config
 
                 MaxLevensteinDistanceAcceptable = getNumber(rawConfig.MaxLevensteinDistanceAcceptable, nameof(rawConfig.MaxLevensteinDistanceAcceptable)),
                 MinSearchingPhraseLen = getNumber(rawConfig.MinSearchingPhraseLen, nameof(rawConfig.MinSearchingPhraseLen)),
-                AcceptableSimilarityInPercents = getNumber(rawConfig.AcceptableSimilarityInPercents, nameof(rawConfig.AcceptableSimilarityInPercents))
+                AcceptableSimilarityInPercents = getNumber(rawConfig.AcceptableSimilarityInPercents, nameof(rawConfig.AcceptableSimilarityInPercents)),
+
+                FfmpegZipUri = ValidateUri(rawConfig.FfmpegZipUri),
             };
 
 
@@ -154,6 +156,16 @@ namespace Visprech.Infrastructure.Config
                         .Where(v => v.Length > 0)
                         .ToList();
             }
+        }
+
+        private string ValidateUri(string uri)
+        {
+            if (Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+                return uri;
+
+            _logger.LogError("The provided URI {Uri} is not well formatted", uri);
+
+            throw new WrongConfigurationException($"The provided URI {uri} is not well formatted.");
         }
 
         private string ValidateAndMakePathAbsolute(string path)

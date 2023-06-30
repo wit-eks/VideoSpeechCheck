@@ -11,24 +11,34 @@ namespace Visprech.Infrastructure.MediaTranscriptors.Services
 
         private readonly bool _force;
         private readonly string _ffmpegFilePath;
+        private readonly string _ffmpegZipUri;
         private readonly string _outputFolder;
         private readonly IMessageWriter _messageWriter;
         private readonly ILogger _logger;
+        private readonly IFileDownloader _fileDownloader;
+        private readonly IZipFileExtractor _zipfileExtractor;
 
         public FfmpegAudioPreparer(
             IConfiguration configuration,
             IMessageWriter messageWriter,
-            ILogger<FfmpegAudioPreparer> logger)
+            ILogger<FfmpegAudioPreparer> logger,
+            IFileDownloader fileDownloader,
+            IZipFileExtractor zipfileExtractor)
         {
             _force = configuration.ForcedAudioExtraction;
             _ffmpegFilePath = configuration.FfmpegPtah;
+            _ffmpegZipUri = configuration.FfmpegZipUri;
             _outputFolder = configuration.OutputFilesPath;
             _messageWriter = messageWriter;
             _logger = logger;
+            _fileDownloader = fileDownloader;
+            _zipfileExtractor = zipfileExtractor;
         }
 
         public async Task<string> PrepareFile(string inputFilePath)
         {
+            await CheckIfExistsAndDownloadFfmpeg();
+
             string startMessage = $"Extracting audio stream from: {inputFilePath}";
 
             _logger.LogInformation(startMessage);
@@ -94,6 +104,73 @@ namespace Visprech.Infrastructure.MediaTranscriptors.Services
                 _messageWriter.WriteInternalError(ex.ToString());
                 throw;
             }
+        }
+
+        private async Task CheckIfExistsAndDownloadFfmpeg()
+        {
+            if (File.Exists(_ffmpegFilePath)) return;
+
+            _messageWriter.WriteNotyfication("Pulling ffmpeg package for the first time.");
+
+            var downloadFolder = Path.GetDirectoryName(_ffmpegFilePath);
+            Directory.CreateDirectory(downloadFolder);
+
+            var zippedFfmpeg = Path.Combine(downloadFolder, "ffmpeg.zip");
+
+            await _fileDownloader.DownloadFrom(_ffmpegZipUri, zippedFfmpeg);
+
+            await _zipfileExtractor.ExtractFile(
+                zipFilePath: zippedFfmpeg, 
+                fileToExtract: "ffmpeg.exe", 
+                extractFileTo: _ffmpegFilePath);
+
+            _messageWriter.Write("Removing downloaded zipped ffmpeg");
+
+            if(TryDeleteFile(zippedFfmpeg, 2))
+            {
+                _messageWriter.Write("Downloaded zipped ffmpeg file deleted");
+            }
+            else
+            {
+                _messageWriter.WriteWarn($"Unable to delete zipped ffmpeg file {zippedFfmpeg}");
+            }
+
+            _messageWriter.Write("Ffmpeg package pulled");
+        }
+
+        private bool TryDeleteFile(string zippedFfmpeg, short tries)
+        {
+            _logger.LogInformation("Deleting {ZippedFfmpeg} file, tries left {TriesLeft}", 
+                zippedFfmpeg, 
+                tries);
+
+            tries--;
+
+            try
+            {
+                try
+                {
+                    File.Delete(zippedFfmpeg);
+                }
+                catch (IOException ioEx)
+                {
+                    if (tries <= 0)
+                    {
+                        _logger.LogWarning(ioEx, "Unable to delete {ZippedFfmpeg} file", zippedFfmpeg);
+                        return false;
+                    }
+                    Thread.Sleep(2 * 1000);
+                    return TryDeleteFile(zippedFfmpeg, tries);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unable to delete {ZippedFfmpeg} file", zippedFfmpeg);
+                return false;
+            }
+
+            _logger.LogInformation("Deleted {ZippedFfmpeg} file", zippedFfmpeg);
+            return true;
         }
 
         private void ErrorDataHandler(

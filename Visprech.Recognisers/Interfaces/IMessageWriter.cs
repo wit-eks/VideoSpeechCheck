@@ -5,6 +5,7 @@
         void Write(string text);
         void WriteEmptyLine();
         void WriteNotyfication(string text);
+        void WriteMainNotyfication(string text);
         void WriteSuccess(string text);
         void WriteWarn(string text);
         void WriteFailure(string text);

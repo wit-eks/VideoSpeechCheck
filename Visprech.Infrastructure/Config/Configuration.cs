@@ -23,6 +23,10 @@ namespace Visprech.Infrastructure.Config
         public string MaxLevensteinDistanceAcceptable { get; set; } = "2";
         public string MinSearchingPhraseLen { get; set; } = "3";
         public string AcceptableSimilarityInPercents { get; set; } = "0";
+        
+        public string FfmpegZipUri { get; set; } = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n6.0-latest-win64-gpl-6.0.zip";
+
+
     }
 
     public class Configuration : IConfiguration
@@ -44,5 +48,7 @@ namespace Visprech.Infrastructure.Config
         public int MinSearchingPhraseLen { get; set; }
         public int AcceptableSimilarityInPercents { get; set; }
         public string OutputFilesPath { get; set; }
+        
+        public string FfmpegZipUri { get; set; }
     }
 }

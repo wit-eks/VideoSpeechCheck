@@ -1,4 +1,4 @@
-name: Publish Command Line
+name: Publish Command Line (win-x64)
 
 on:
   push:
