@@ -5,7 +5,7 @@ using Visprech.Core.Interfaces;
 
 namespace Visprech.Infrastructure.Services
 {
-    internal class ZipFileExtractor : IZipFileExtractor
+    public class ZipFileExtractor : IZipFileExtractor
     {
         private readonly ILogger _logger;
 

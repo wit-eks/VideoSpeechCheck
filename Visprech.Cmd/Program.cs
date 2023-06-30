@@ -6,6 +6,7 @@ using Visprech.Core;
 using Visprech.Core.Exceptions;
 using Visprech.Core.Interfaces;
 using Visprech.Infrastructure.Config;
+using Visprech.Infrastructure.Services;
 using Visprech.Infrastructure.MediaTranscriptors;
 using Visprech.Infrastructure.MediaTranscriptors.Services;
 using Visprech.Infrastructure.PhraseComparers;
@@ -52,6 +53,8 @@ try
                 services.AddSingleton<IMessageWriter, ConsoleWriter>();
                 services.AddSingleton<IPhraseComparer, LevensteinComparer>();
                 services.AddSingleton<IDiacriticsCleaner, DiacriticsCleaner>();
+                services.AddSingleton<IFileDownloader, FileDownloader>();
+                services.AddSingleton<IZipFileExtractor, ZipFileExtractor>();
                 services.AddSingleton<FfmpegAudioPreparer>();
                 services.AddSingleton<WhisperOpenAiTranscriptor>();
                 services.AddSingleton<IMediaTranscriptor, FfmpegWhisperTranscriptor>();
