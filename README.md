@@ -12,12 +12,15 @@
 
 ## UI
 ### Command line application
-* build/publish  **Visprech.Cmd** project
+* build/publish  **Visprech.Cmd** project or download latest release
 * run the built executable
+    * if not exists `ffmpeg` will be download (needed for audio extraction)
+    * if not exists `Whisper ggml` will be downloaded (needed for transcript creation)
 * the **app.conf** file should be created with default configuration
-* edit phrases in **app.conf**. Add phrases that are desired and/or prohibited
-* download [ffmpeg](https://ffmpeg.org/) executable and place in folder specified in the **app.conf**, default path is ffmpeg/ffmpeg.exe
-* run the executable against video file (audio fill will work too). Drag-and-Drop may be used
+* edit phrases in **app.conf**. Add phrases that are desired and/or prohibited. **DesiredPhrases** and **ProhibitedPhrases** respectively.
+* run the executable against video file (audio file will work too). 
+	* Run it in the command line. E.g. `VideoSpeechCheck.exe <file to check>`
+	* Drag-and-Drop a video file on `VideoSpeechCheck.exe`
 
 ## Used resources:
 * [ffmpeg](https://ffmpeg.org/) to extract audio stream for speech to text process
@@ -26,5 +29,4 @@
 * [Fastenshtein](https://github.com/DanHarltey/Fastenshtein) used to compare phrases by [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) 
 
 ## Planned improvements
-* automatically downloaded ffmpeg when run for the first time
 * some more user friendly UI
