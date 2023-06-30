@@ -69,7 +69,7 @@ try
             .Build();
 
         var worker = host.Services.GetService<Worker>();
-        await worker.Start(args);
+        exitCode = await worker.Start(args);
     }
     catch (WrongConfigurationException ce)
     {
