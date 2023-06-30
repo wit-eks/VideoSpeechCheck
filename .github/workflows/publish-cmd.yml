@@ -1,12 +1,10 @@
 name: Publish Command Line (win-x64)
 
 on:
-  push:
-    ##branches: [ "master" ]
-    tags:
-      - "v*"
   pull_request:
     branches: [ "master" ]
+    tags:
+      - "v*"
 
 env:
   PROJECT_PATH: Visprech.Cmd/Visprech.Cmd.csproj
