@@ -11,24 +11,34 @@ namespace Visprech.Infrastructure.MediaTranscriptors.Services
 
         private readonly bool _force;
         private readonly string _ffmpegFilePath;
+        private readonly string _ffmpegZipUri;
         private readonly string _outputFolder;
         private readonly IMessageWriter _messageWriter;
         private readonly ILogger _logger;
+        private readonly IFileDownloader _fileDownloader;
+        private readonly IZipFileExtractor _zipfileExtractor;
 
         public FfmpegAudioPreparer(
             IConfiguration configuration,
             IMessageWriter messageWriter,
-            ILogger<FfmpegAudioPreparer> logger)
+            ILogger<FfmpegAudioPreparer> logger,
+            IFileDownloader fileDownloader,
+            IZipFileExtractor zipfileExtractor)
         {
             _force = configuration.ForcedAudioExtraction;
             _ffmpegFilePath = configuration.FfmpegPtah;
+            _ffmpegZipUri = configuration.FfmpegZipUri;
             _outputFolder = configuration.OutputFilesPath;
             _messageWriter = messageWriter;
             _logger = logger;
+            _fileDownloader = fileDownloader;
+            _zipfileExtractor = zipfileExtractor;
         }
 
         public async Task<string> PrepareFile(string inputFilePath)
         {
+            await CheckIfExistsAndDownloadFfmpeg();
+
             string startMessage = $"Extracting audio stream from: {inputFilePath}";
 
             _logger.LogInformation(startMessage);
@@ -94,6 +104,26 @@ namespace Visprech.Infrastructure.MediaTranscriptors.Services
                 _messageWriter.WriteInternalError(ex.ToString());
                 throw;
             }
+        }
+
+        private async Task CheckIfExistsAndDownloadFfmpeg()
+        {
+            if (File.Exists(_ffmpegFilePath)) return;
+
+            _messageWriter.WriteNotyfication("Downloading ffmpeg binary for the first time.");
+
+            var downloadFolder = Path.Combine(Path.GetDirectoryName(_ffmpegFilePath), "_tmp_download");
+            Directory.CreateDirectory(downloadFolder);
+
+            var zippedFfmpeg = Path.Combine(downloadFolder, "ffmpeg.zip");
+
+            await _fileDownloader.DownloadFrom(_ffmpegZipUri, zippedFfmpeg);
+
+            await _zipfileExtractor.ExtractFile(zippedFfmpeg, "ffmpeg.exe", _ffmpegFilePath);
+
+            Directory.Delete(downloadFolder, recursive: true);
+
+            _messageWriter.Write("Downloading of ffmpeg finished");
         }
 
         private void ErrorDataHandler(
