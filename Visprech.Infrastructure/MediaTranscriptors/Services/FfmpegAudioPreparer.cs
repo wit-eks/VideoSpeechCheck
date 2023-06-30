@@ -110,20 +110,67 @@ namespace Visprech.Infrastructure.MediaTranscriptors.Services
         {
             if (File.Exists(_ffmpegFilePath)) return;
 
-            _messageWriter.WriteNotyfication("Downloading ffmpeg binary for the first time.");
+            _messageWriter.WriteNotyfication("Pulling ffmpeg package for the first time.");
 
-            var downloadFolder = Path.Combine(Path.GetDirectoryName(_ffmpegFilePath), "_tmp_download");
+            var downloadFolder = Path.GetDirectoryName(_ffmpegFilePath);
             Directory.CreateDirectory(downloadFolder);
 
             var zippedFfmpeg = Path.Combine(downloadFolder, "ffmpeg.zip");
 
             await _fileDownloader.DownloadFrom(_ffmpegZipUri, zippedFfmpeg);
 
-            await _zipfileExtractor.ExtractFile(zippedFfmpeg, "ffmpeg.exe", _ffmpegFilePath);
+            await _zipfileExtractor.ExtractFile(
+                zipFilePath: zippedFfmpeg, 
+                fileToExtract: "ffmpeg.exe", 
+                extractFileTo: _ffmpegFilePath);
 
-            Directory.Delete(downloadFolder, recursive: true);
+            _messageWriter.Write("Removing downloaded zipped ffmpeg");
 
-            _messageWriter.Write("Downloading of ffmpeg finished");
+            if(TryDeleteFile(zippedFfmpeg, 2))
+            {
+                _messageWriter.Write("Downloaded zipped ffmpeg file deleted");
+            }
+            else
+            {
+                _messageWriter.WriteWarn($"Unable to delete zipped ffmpeg file {zippedFfmpeg}");
+            }
+
+            _messageWriter.Write("Ffmpeg package pulled");
+        }
+
+        private bool TryDeleteFile(string zippedFfmpeg, short tries)
+        {
+            _logger.LogInformation("Deleting {ZippedFfmpeg} file, tries left {TriesLeft}", 
+                zippedFfmpeg, 
+                tries);
+
+            tries--;
+
+            try
+            {
+                try
+                {
+                    File.Delete(zippedFfmpeg);
+                }
+                catch (IOException ioEx)
+                {
+                    if (tries <= 0)
+                    {
+                        _logger.LogWarning(ioEx, "Unable to delete {ZippedFfmpeg} file", zippedFfmpeg);
+                        return false;
+                    }
+                    Thread.Sleep(2 * 1000);
+                    return TryDeleteFile(zippedFfmpeg, tries);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unable to delete {ZippedFfmpeg} file", zippedFfmpeg);
+                return false;
+            }
+
+            _logger.LogInformation("Deleted {ZippedFfmpeg} file", zippedFfmpeg);
+            return true;
         }
 
         private void ErrorDataHandler(

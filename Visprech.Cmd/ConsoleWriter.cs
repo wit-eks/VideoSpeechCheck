@@ -44,6 +44,17 @@ namespace Visprech.Cmd
             Console.WriteLine();
         }
 
+        public void WriteMainNotyfication(string text)
+        {
+            Console.WriteLine();
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(text);
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
         public void WriteNotyfication(string text)
         {
             Console.BackgroundColor = ConsoleColor.Blue;

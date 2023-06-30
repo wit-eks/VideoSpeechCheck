@@ -41,6 +41,8 @@ namespace Visprech.Cmd
                 return exitCode;
             }
 
+            _messageWriter.WriteMainNotyfication($"File {Path.GetFileName(file)} is going to be checked");
+
             _logger.LogInformation("Transcribing input file...");
             var transcription = await _mediaTranscriptor.Transcript(file);
             
