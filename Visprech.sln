@@ -29,6 +29,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{457D7EE0-24C2-46AB-88AC-968AD4C30BE6}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\publish-cmd.yml = .github\workflows\publish-cmd.yml
+		.github\workflows\test-develop.yml = .github\workflows\test-develop.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notes", "notes", "{6124D6A9-BD57-44B9-BA60-B226FB470F85}"
+	ProjectSection(SolutionItems) = preProject
+		_assets\notes\notes.txt = _assets\notes\notes.txt
 	EndProjectSection
 EndProject
 Global
@@ -60,6 +66,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{60D0C01F-438C-42E4-918A-6D4CCB4B91E7} = {AA357DE9-45BF-4D21-AB5A-37E4F184F6E5}
 		{457D7EE0-24C2-46AB-88AC-968AD4C30BE6} = {88ABC6D0-F3FD-4263-9FCD-628B8B5EE5E6}
+		{6124D6A9-BD57-44B9-BA60-B226FB470F85} = {AA357DE9-45BF-4D21-AB5A-37E4F184F6E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A92FFF57-E8DD-4101-A0CE-74F92616FC9A}

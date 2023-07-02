@@ -4,7 +4,9 @@
 
 ## Builds
 
-![command line publish](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/publish-cmd.yml/badge.svg)
+![Test Develop](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/test-develop.yml/badge.svg) <br>
+![Command Line UI publish](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/publish-cmd.yml/badge.svg)
+
 
 ## Functionalities:
 * speech to text recognition and transcribe
