@@ -1,10 +1,8 @@
 name: Publish Command Line (win-x64)
 
 on:
-  pull_request:
+  push:
     branches: [ "master" ]
-    tags:
-      - "v*"
 
 env:
   PROJECT_PATH: Visprech.Cmd/Visprech.Cmd.csproj
@@ -13,15 +11,33 @@ env:
   EXE_FILE: VideoSpeechCheck.exe                        ##relative to PUBLISH_PATH
   WHISPER_FILE: runtimes/win-x64/whisper.dll            ##relative to PUBLISH_PATH
   RELEASE_ASSET_NAME: VideoSpeechCheck.zip
+  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
 
 
 jobs:
   build:
 
     runs-on: windows-latest
-
+    if: startsWith(COMMIT_MESSAGE, 'v0') || startsWith(COMMIT_MESSAGE, 'v1') || startsWith(COMMIT_MESSAGE, 'v2') || startsWith(COMMIT_MESSAGE, 'v3')  
     steps:
     - uses: actions/checkout@v3
+
+    - name: Set Variables
+      id: variables_basket
+      shell: pwsh
+      run: |
+        $cm = "${{ github.event.head_commit.message }}"
+        $tag_name = $cm 
+        $release_name = $cm.replace('v','')
+
+        echo "TAG_NAME=$tag_name" >> $env:GITHUB_OUTPUT
+        echo "RELEASE_NAME=$release_name" >> $env:GITHUB_OUTPUT
+
+    - name: Check Variables
+      run: |
+        echo "Release name set to ${{ steps.variables_basket.outputs.RELEASE_NAME }}"
+        echo "Tag name set to     ${{ steps.variables_basket.outputs.TAG_NAME }}"
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -40,21 +56,35 @@ jobs:
       working-directory: ${{ env.PUBLISH_PATH }}
       run: 7z a ${{ env.ZIP_FILE }} ${{ env.EXE_FILE }} ${{ env.WHISPER_FILE }}
 
+    - name: Create Tag
+      uses: actions/github-script@v3
+      env:
+         TAG: ${{ steps.variables_basket.outputs.TAG_NAME }}
+      with:
+        github-token: ${{ github.token }}
+        script: |
+          github.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: "refs/tags/${{ steps.variables_basket.outputs.TAG_NAME }}",
+            sha: context.sha
+           })
+
     - name: Create Release
       uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
+        tag_name: ${{ steps.variables_basket.outputs.TAG_NAME }}
+        release_name: ${{ steps.variables_basket.outputs.RELEASE_NAME }}
 
     - name: Upload Release Asset    
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ env.PUBLISH_PATH }}${{ env.ZIP_FILE }}
         asset_name: ${{ env.RELEASE_ASSET_NAME }}
         asset_content_type: application/zip
