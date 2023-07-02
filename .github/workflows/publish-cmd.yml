@@ -1,4 +1,4 @@
-name: Publish Command Line (win-x64)
+name: Build Command Line App (win-x64)
 
 on:
   push:
@@ -11,14 +11,12 @@ env:
   EXE_FILE: VideoSpeechCheck.exe                        ##relative to PUBLISH_PATH
   WHISPER_FILE: runtimes/win-x64/whisper.dll            ##relative to PUBLISH_PATH
   RELEASE_ASSET_NAME: VideoSpeechCheck.zip
-  COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-
 
 jobs:
   build:
 
     runs-on: windows-latest
-    if: startsWith(COMMIT_MESSAGE, 'v0') || startsWith(COMMIT_MESSAGE, 'v1') || startsWith(COMMIT_MESSAGE, 'v2') || startsWith(COMMIT_MESSAGE, 'v3')  
+    if: startsWith(github.event.head_commit.message, 'v0') || startsWith(github.event.head_commit.message, 'v1') || startsWith(github.event.head_commit.message, 'v2') || startsWith(github.event.head_commit.message, 'v3')  
     steps:
     - uses: actions/checkout@v3
 
