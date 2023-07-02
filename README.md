@@ -5,6 +5,7 @@
 ## Builds
 
 ![Test Develop](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/test-develop.yml/badge.svg)
+
 ![Command Line UI publish](https://github.com/wit-eks/VideoSpeechCheck/actions/workflows/publish-cmd.yml/badge.svg)
 
 
