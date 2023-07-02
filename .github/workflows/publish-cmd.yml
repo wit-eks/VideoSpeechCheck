@@ -25,11 +25,13 @@ jobs:
       shell: pwsh
       run: |
         $cm = "${{ github.event.head_commit.message }}"
-        $tag_name = $cm 
-        $release_name = $cm.replace('v','')
+        $tag_name = $cm.Split([System.Environment]::NewLine,[System.StringSplitOptions]::RemoveEmptyEntries)[0] 
+        $release_name = $tag_name.replace('v','')
+        $release_description = $cm
 
         echo "TAG_NAME=$tag_name" >> $env:GITHUB_OUTPUT
         echo "RELEASE_NAME=$release_name" >> $env:GITHUB_OUTPUT
+        echo "RELEASE_DESCRIPTION=$release_description" >> $env:GITHUB_OUTPUT
 
     - name: Check Variables
       run: |
@@ -76,6 +78,7 @@ jobs:
       with:
         tag_name: ${{ steps.variables_basket.outputs.TAG_NAME }}
         release_name: ${{ steps.variables_basket.outputs.RELEASE_NAME }}
+        body: ${{ steps.variables_basket.outputs.RELEASE_DESCRIPTION }}
 
     - name: Upload Release Asset    
       uses: actions/upload-release-asset@v1
