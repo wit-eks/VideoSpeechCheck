@@ -14,13 +14,13 @@
 
 ## UI
 ### Command line application
-* build/publish  **Visprech.Cmd** project or download latest release
-* run the built executable
+1. build/publish  **Visprech.Cmd** project or download latest release
+1. run the built executable
     * if not exists `ffmpeg` will be download (needed for audio extraction)
     * if not exists `Whisper ggml` will be downloaded (needed for transcript creation)
-* the **app.conf** file should be created with default configuration
-* edit phrases in **app.conf**. Add phrases that are desired and/or prohibited. **DesiredPhrases** and **ProhibitedPhrases** respectively.
-* run the executable against video file (audio file will work too). 
+1. the **app.conf** file should be created with default configuration
+1. edit phrases in **app.conf**. Add phrases that are desired and/or prohibited. **DesiredPhrases** and **ProhibitedPhrases** respectively.
+1. run the executable against video file (audio file will work too). 
 	* Run it in the command line. E.g. `VideoSpeechCheck.exe <file to check>`
 	* Drag-and-Drop a video file on `VideoSpeechCheck.exe`
 
